@@ -8,6 +8,23 @@ def emotion_detector(text_to_analyze: str):
     response = requests.post(url, headers=headers, json=payload)
 
     if (response.status_code == 200):
-        return response.text
+        response_json: dict = response.json()
+
+        emotions: dict = response_json["emotionPredictions"][0]["emotion"]
+        dominant_emotion: str = ""
+        max_score: float = 0
+
+        for emotion, score in emotions.items():
+            if score > max_score:
+                dominant_emotion = emotion
+                max_score = score
+        
+        emotions["dominant_emotion"] = dominant_emotion
+
+        return emotions
+
     else:
         response.raise_for_status()
+
+if __name__ == "__main__":
+    print(emotion_detector("I am so happy I am doing this."))
