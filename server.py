@@ -1,3 +1,7 @@
+"""
+Simple Flask Emotion Detection Server
+"""
+
 from flask import Flask, request
 from EmotionDetection.emotion_detection import emotion_detector
 
@@ -5,6 +9,9 @@ app = Flask(__name__)
 
 @app.route("/emotionDetector")
 def detect_emotion():
+    """
+    Detects emotion from user provided string
+    """
     text_to_analyze: str = request.args.get('textToAnalyze')
     result: dict = emotion_detector(text_to_analyze)
 
@@ -20,6 +27,11 @@ def detect_emotion():
 
         emotion_values.append(f"'{key}': {value}")
 
-    return_value: str = f"For the given statement, the system response is {(', '.join(emotion_values))}. The dominant emotion is {result['dominant_emotion']}."
+    return_value: str = (
+        "For the given statement, the system"
+        f" response is {(', '.join(emotion_values))}."
+        " The dominant emotion is"
+        f" {result['dominant_emotion']}."
+    )
 
     return return_value
