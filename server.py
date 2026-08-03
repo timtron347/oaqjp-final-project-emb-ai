@@ -8,6 +8,11 @@ def detect_emotion():
     text_to_analyze: str = request.args.get('textToAnalyze')
     result: dict = emotion_detector(text_to_analyze)
 
+    dominant_emotion = result["dominant_emotion"]
+
+    if not dominant_emotion or not text_to_analyze or text_to_analyze == "":
+        return "Invalid text! Please try again!"
+
     emotion_values: list[str] = []
     for key, value in result.items():
         if key == "dominant_emotion":
