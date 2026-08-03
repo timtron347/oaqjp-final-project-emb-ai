@@ -2,10 +2,17 @@
 Simple Flask Emotion Detection Server
 """
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 from EmotionDetection.emotion_detection import emotion_detector
 
 app = Flask(__name__)
+
+@app.route("/")
+def home_page():
+    """
+    Home page
+    """
+    return render_template("index.html")
 
 @app.route("/emotionDetector")
 def detect_emotion():
